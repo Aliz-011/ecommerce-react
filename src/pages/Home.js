@@ -7,6 +7,7 @@ import {
   Featured,
   Footer,
 } from '../components';
+import Ads from '../components/Ads';
 
 const Home = () => {
   return (
@@ -22,6 +23,7 @@ const Home = () => {
         <div className="py-8" />
         <Featured />
         <div className="py-8" />
+        <Ads />
       </div>
 
       <Footer />

@@ -24,6 +24,7 @@ const Product = ({ product }) => {
 
     return response.data;
   };
+
   return (
     <>
       {product && (

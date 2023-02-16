@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import Favorite from './pages/Favorite';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import ProductDetails from './pages/ProductDetails';
@@ -25,6 +26,7 @@ function App() {
         <Route path="/store" element={<Store />} />
         <Route path="/:slug" element={<ProductDetails />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/favorite" element={<Favorite />} />
       </Routes>
     </BrowserRouter>
   );

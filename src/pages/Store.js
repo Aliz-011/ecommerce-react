@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Header, Product, Footer } from '../components';
+import { useStateValue } from '../context/Store';
 
 export default function Store() {
   const [colors, setColors] = useState([
@@ -16,6 +17,16 @@ export default function Store() {
     'indigo',
   ]);
 
+  const [shopBy, setShopBy] = useState({
+    categories: '',
+    availability: '',
+    price: { min: 0, max: 99999 },
+    color: '',
+    size: '',
+  });
+
+  const [state, dispatch] = useStateValue();
+
   const [products, setProducts] = useState([]);
 
   const fetchProducts = async () => {
@@ -26,14 +37,18 @@ export default function Store() {
   };
 
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    if (state.products.length > 0) {
+      setProducts(state.products);
+    } else {
+      fetchProducts();
+    }
+  }, [products]);
 
   return (
     <>
       <Header />
       <main className="container mx-auto max-w-7xl">
-        <section className="grid grid-cols-4 gap-5">
+        <section className="grid grid-cols-4 gap-5 pb-10">
           <div className="col-span-full mx-auto my-8">
             <h2>
               Home / <Link to="/store">Our Store</Link>
@@ -46,10 +61,18 @@ export default function Store() {
                 Shop by Categories
               </h2>
               <div className="flex flex-row sm:flex-col capitalize font-extralight">
-                <Link to="#">watch</Link>
-                <Link to="#">tv</Link>
-                <Link to="#">camera</Link>
-                <Link to="#">headphone</Link>
+                <div className="flex items-center gap-2">
+                  <input type="checkbox" id="checkboxCategories" className="" />
+                  <label htmlFor="checkboxCategories">Headphone</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input type="checkbox" id="checkboxCategories" className="" />
+                  <label htmlFor="checkboxCategories">TV</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input type="checkbox" id="checkboxCategories" className="" />
+                  <label htmlFor="checkboxCategories">Smartphone</label>
+                </div>
               </div>
             </div>
 

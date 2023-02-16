@@ -8,8 +8,11 @@ const Hero = () => {
           <img
             src="/images/main-banner.jpg"
             alt=""
-            className="object-contain rounded-lg"
+            className="object-contain absolute rounded-lg"
           />
+          <div className="absolute left-8 top-10">
+            <h1 className="font-medium text-5xl">Super bass</h1>
+          </div>
         </div>
       </div>
       <div className="col-span-2 grid grid-cols-2 gap-5">

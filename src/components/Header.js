@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
   MdOutlineKeyboardArrowDown,
   MdSearch,
@@ -8,15 +8,31 @@ import { AiOutlineHeart, AiOutlineUser } from 'react-icons/ai';
 import { Menu } from '@headlessui/react';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import { actionType, useStateValue } from '../context/Store';
+import axios from 'axios';
 
 const Header = () => {
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user, products }, dispatch] = useStateValue();
+  const [searchInput, setSearchInput] = useState('');
 
   const links = [
     { href: '/menswear', label: 'menswear' },
     { href: '/womenswear', label: 'womenswear' },
     { href: '/elektronik', label: 'elektronik' },
   ];
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (searchInput) {
+      const response = await axios.get(`http://localhost:1000/api/v1/product`);
+
+      const searchedProducts = response.data.filter((item) =>
+        item.title.toLowerCase().includes(searchInput.toLowerCase())
+      );
+
+      setSearchInput('');
+      dispatch({ type: actionType.SET_PRODUCTS, products: searchedProducts });
+    }
+  };
 
   const logout = async () => {
     await fetch('http://localhost:1000/api/v1/auth/logout');
@@ -58,34 +74,47 @@ const Header = () => {
             </Link>
 
             <div className="w-1/2 mx-auto">
-              <div className="flex items-center rounded bg-white">
+              <form
+                onSubmit={handleSearch}
+                className="flex items-center rounded bg-white"
+              >
                 <input
                   type="text"
                   className="pl-3 bg-transparent outline-none flex-grow text-sm text-gray-600 placeholder-gray-400"
                   placeholder="Search Product Here..."
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
                 />
                 <button className="inline-flex items-center py-1 gap-1 px-4 text-white rounded-sm transition-all ease-out duration-150 bg-yellow-500 hover:bg-yellow-600 cursor-pointer">
                   <MdSearch className="w-6 h-6" />
                 </button>
-              </div>
+              </form>
             </div>
 
             <div className="flex items-center gap-4 text-xl">
-              <div className="flex items-center gap-1 cursor-pointer">
+              <Link
+                to={'/favorite'}
+                className="flex items-center gap-1 cursor-pointer"
+              >
                 <AiOutlineHeart className="fill-red-700" />
-
-                <Link to={'/favorite'}>Favorite</Link>
-              </div>
+                Favorite
+              </Link>
               {user ? (
-                <div className="flex items-center gap-1 cursor-pointer">
+                <div
+                  onClick={logout}
+                  className="flex items-center gap-1 cursor-pointer"
+                >
                   <AiOutlineUser />
-                  <span onClick={logout}>Logout</span>
+                  <span>Logout</span>
                 </div>
               ) : (
-                <div className="flex items-center gap-1 cursor-pointer">
+                <Link
+                  to="/login"
+                  className="flex items-center gap-1 cursor-pointer"
+                >
                   <AiOutlineUser />
-                  <Link to="/login">Login</Link>
-                </div>
+                  Login
+                </Link>
               )}
 
               <div className="flex items-center cursor-pointer">
