@@ -6,8 +6,9 @@ import {
   Categories,
   Featured,
   Footer,
+  Ads,
+  SpecialProducts,
 } from '../components';
-import Ads from '../components/Ads';
 
 const Home = () => {
   return (
@@ -24,6 +25,9 @@ const Home = () => {
         <Featured />
         <div className="py-8" />
         <Ads />
+        <div className="py-8" />
+        <SpecialProducts />
+        <div className="py-8" />
       </div>
 
       <Footer />

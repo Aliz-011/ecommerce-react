@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Footer, Header } from '../components';
 import { useStateValue } from '../context/Store';
-import { ReactComponent as NotFound } from '../images/404.svg';
 
 export default function Favorite() {
   const [{ user }, dispatch] = useStateValue();
@@ -85,10 +84,14 @@ export default function Favorite() {
             ))
           ) : (
             <div className="col-span-full h-1/2 w-full">
-              <NotFound className="h-full w-3/4 mx-auto" />
+              <img
+                src="/images/empty-cart.jpg"
+                alt="empty"
+                className="h-full w-3/4 mx-auto"
+              />
               <div className="text-center my-8">
                 <h1 className="font-medium text-4xl">
-                  Choose your favorite product now {':)'}
+                  Choose your favorite product and comeback here {':)'}
                 </h1>
               </div>
             </div>
