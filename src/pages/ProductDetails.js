@@ -4,12 +4,47 @@ import { AiOutlineHeart } from 'react-icons/ai';
 import { HiStar } from 'react-icons/hi';
 import { useParams } from 'react-router-dom';
 import { Header, Footer } from '../components';
+import { actionType, useStateValue } from '../context/Store';
 
 export default function ProductDetails() {
   const { slug } = useParams();
+  const [{ user }, dispatch] = useStateValue();
 
   const [qty, setQty] = useState(1);
   const [product, setProduct] = useState(null);
+
+  const addToCart = () => {
+    // const response = await axios.post(
+    //   `http://localhost:1000/api/v1/cart`,
+    //   {
+    //     cart: [
+    //       {
+    //         _id: id,
+    //         quantity: qty,
+    //         color: product.color[0],
+    //       },
+    //     ],
+    //   },
+    //   {
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       Authorization: `Bearer ${user.token}`,
+    //     },
+    //   }
+    // );
+    let products = [];
+
+    if (!localStorage.getItem('cart')) {
+      localStorage.setItem('cart', JSON.stringify(products));
+    }
+    products = JSON.parse(localStorage.getItem('cart'));
+    products.push(product);
+    localStorage.setItem('cart', JSON.stringify(products));
+    dispatch({
+      type: actionType.SET_CART,
+      cart: JSON.parse(localStorage.getItem('cart')),
+    });
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -19,10 +54,9 @@ export default function ProductDetails() {
       setProduct(response.data);
       return response.data;
     };
+
     fetchProduct();
   }, []);
-
-  const addToCart = async () => {};
 
   return (
     <>
@@ -84,7 +118,7 @@ export default function ProductDetails() {
 
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => setItems([...cart, product])}
+                    onClick={addToCart}
                     className="uppercase text-base font-normal bg-slate-900 shadow-md text-white px-7 py-2 rounded-full"
                   >
                     Add To Cart

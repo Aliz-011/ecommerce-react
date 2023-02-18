@@ -29,7 +29,7 @@ const Featured = () => {
         </picture>
 
         <div className="flex flex-col gap-3 pb-3 pl-2">
-          <h1 className="text-orange-600 text-sm">Samsung</h1>
+          <h1 className="text-orange-600 text-sm mt-3">Samsung</h1>
           <p className="font-semibold">
             Samsung Galaxy S23 Ultra 5G 12/256GB - Black
           </p>
@@ -55,7 +55,7 @@ const Featured = () => {
         </picture>
 
         <div className="flex flex-col gap-3 pb-3 pl-2">
-          <h1 className="text-orange-600 text-sm">Nike</h1>
+          <h1 className="text-orange-600 text-sm mt-3">Nike</h1>
           <p className="font-semibold">
             Air Jordan 1 Low Fragment Travis Scott Authentic - 40
           </p>
@@ -81,7 +81,7 @@ const Featured = () => {
         </picture>
 
         <div className="flex flex-col gap-3 pb-3 pl-2">
-          <h1 className="text-orange-600 text-sm">JBL</h1>
+          <h1 className="text-orange-600 text-sm mt-3">JBL</h1>
           <p className="font-semibold">
             JBL Tune 225 True Wireless Ghost Edition
           </p>
@@ -107,7 +107,7 @@ const Featured = () => {
         </picture>
 
         <div className="flex flex-col gap-3 pb-3 pl-2">
-          <h1 className="text-orange-600 text-sm">Samsung</h1>
+          <h1 className="text-orange-600 text-sm mt-3">Samsung</h1>
           <p className="font-semibold">
             Samsung Galaxy S22 Ultra 5G 12/256GB - White
           </p>
@@ -133,7 +133,7 @@ const Featured = () => {
         </picture>
 
         <div className="flex flex-col gap-3 pb-3 pl-2">
-          <h1 className="text-orange-600 text-sm">Rolex</h1>
+          <h1 className="text-orange-600 text-sm mt-3">Rolex</h1>
           <p className="font-semibold">
             Rolex GMT Master II - 126710BLNR Batman Oyster
           </p>

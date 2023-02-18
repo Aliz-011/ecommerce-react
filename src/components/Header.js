@@ -9,10 +9,12 @@ import { Menu } from '@headlessui/react';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import { actionType, useStateValue } from '../context/Store';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Header = () => {
-  const [{ user, products }, dispatch] = useStateValue();
+  const [{ user, products, cart }, dispatch] = useStateValue();
   const [searchInput, setSearchInput] = useState('');
+  const [msg, setMsg] = useState(null);
 
   const links = [
     { href: '/menswear', label: 'menswear' },
@@ -40,7 +42,22 @@ const Header = () => {
     localStorage.removeItem('user');
   };
 
-  useEffect(() => {}, [user]);
+  useEffect(() => {
+    const fetchCart = async () => {
+      const response = await axios.get('http://localhost:1000/api/v1/cart', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      if (response.statusText !== 'OK') {
+        setMsg('Your cart is empty');
+        return;
+      }
+    };
+
+    fetchCart();
+  }, [user, cart]);
 
   return (
     <header>

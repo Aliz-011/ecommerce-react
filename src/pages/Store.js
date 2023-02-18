@@ -97,6 +97,9 @@ export default function Store() {
                 <div className="flex gap-2">
                   <input
                     type="text"
+                    onChange={(e) =>
+                      setShopBy({ ...shopBy, price: { min: e.target.value } })
+                    }
                     pattern="[0-9]+"
                     placeholder="From"
                     className="rounded w-full border px-2 py-1.5"
@@ -105,6 +108,9 @@ export default function Store() {
                 <div className="flex gap-2">
                   <input
                     type="text"
+                    onChange={(e) =>
+                      setShopBy({ ...shopBy, price: { max: e.target.value } })
+                    }
                     pattern="[0-9]+"
                     placeholder="To"
                     className="rounded w-full border px-2 py-1.5"
@@ -154,14 +160,20 @@ export default function Store() {
             <div className="flex items-center justify-between w-full mb-2">
               <div className="flex items-center gap-5">
                 <h2 className="font-semibold">Sort by:</h2>
-                <select className="cursor-pointer">
+                <select
+                  className="cursor-pointer"
+                  value={shopBy.size}
+                  onChange={(e) =>
+                    setShopBy({ ...shopBy, size: e.target.value })
+                  }
+                >
                   <option value="best-sell">Best Selling</option>
                   <option value="asc">A-Z</option>
                   <option value="desc">Z-A</option>
-                  <option value="desc">Cheapest - Expensive</option>
-                  <option value="desc">Expensive - Cheapest</option>
-                  <option value="desc">New - Old</option>
-                  <option value="desc">Old - New</option>
+                  <option value="priceAsc">Cheapest - Expensive</option>
+                  <option value="priceDesc">Expensive - Cheapest</option>
+                  <option value="newest">New - Old</option>
+                  <option value="oldest">Old - New</option>
                 </select>
               </div>
 

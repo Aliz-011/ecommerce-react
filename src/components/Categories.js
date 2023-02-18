@@ -3,7 +3,7 @@ import React from 'react';
 const Categories = () => {
   return (
     <section className="grid grid-cols-4">
-      <h2 className="col-span-full font-semibold">Categories</h2>
+      <h2 className="col-span-full font-semibold text-xl">Categories</h2>
 
       <div className="flex items-center gap-8 p-4 shadow-md">
         <div>

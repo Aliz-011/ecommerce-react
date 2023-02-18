@@ -9,8 +9,8 @@ export const fetchUser = () => {
 
 export const fetchCart = () => {
   const cartInfo =
-    localStorage.getItem('cartItems') !== 'undefined'
-      ? JSON.parse(localStorage.getItem('cartItems'))
+    localStorage.getItem('cart') !== 'undefined'
+      ? JSON.parse(localStorage.getItem('cart'))
       : [];
   return cartInfo ? cartInfo : [];
 };
