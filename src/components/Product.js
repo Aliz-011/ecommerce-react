@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { HiOutlineHeart, HiOutlineShoppingCart, HiStar } from 'react-icons/hi';
 import { actionType, useStateValue } from '../context/Store';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { CartContext } from '../context/CartStore';
 
 const Product = ({ product }) => {
   const [{ user }, dispatch] = useStateValue();
+  const { addItem } = useContext(CartContext);
 
   const addToWishlist = async (id) => {
     const response = await axios.put(
@@ -26,18 +28,16 @@ const Product = ({ product }) => {
   };
 
   const addToCart = () => {
-    let products = [];
-
-    if (!localStorage.getItem('cart')) {
-      localStorage.setItem('cart', JSON.stringify(products));
-    }
-    products = JSON.parse(localStorage.getItem('cart'));
-    products.push(product);
-    localStorage.setItem('cart', JSON.stringify(products));
-    dispatch({
-      type: actionType.SET_CART,
-      cart: JSON.parse(localStorage.getItem('cart')),
-    });
+    const item = {
+      id: product._id,
+      slug: product.slug,
+      title: product.title,
+      brand: product.brand,
+      price: product.price,
+      quantity: 1,
+      color: product.color[0],
+    };
+    addItem(item);
   };
 
   return (
@@ -78,9 +78,9 @@ const Product = ({ product }) => {
             <p className="text-sm ">${product.price}</p>
             <button
               onClick={addToCart}
-              className="uppercase text-base font-normal bg-slate-900 shadow-md p-2 rounded-full"
+              className="uppercase text-base font-normal bg-orange-500 shadow-md p-2 rounded-full"
             >
-              <HiOutlineShoppingCart className="text-yellow-600" />
+              <HiOutlineShoppingCart className="text-white" />
             </button>
           </div>
         </div>

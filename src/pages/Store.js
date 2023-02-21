@@ -25,13 +25,18 @@ export default function Store() {
     size: '',
   });
 
+  const [sortBy, setSortBy] = useState('');
+
   const [state, dispatch] = useStateValue();
 
   const [products, setProducts] = useState([]);
 
   const fetchProducts = async () => {
-    const response = await axios.get('http://localhost:1000/api/v1/product');
+    const response = await axios.get(
+      `http://localhost:1000/api/v1/product?sort=${sortBy}`
+    );
     setProducts(response.data);
+    return;
 
     return response.data;
   };
@@ -162,18 +167,13 @@ export default function Store() {
                 <h2 className="font-semibold">Sort by:</h2>
                 <select
                   className="cursor-pointer"
-                  value={shopBy.size}
-                  onChange={(e) =>
-                    setShopBy({ ...shopBy, size: e.target.value })
-                  }
+                  onChange={(e) => setSortBy(e.target.value)}
                 >
+                  <option value="title">A-Z</option>
+                  <option value="-title">Z-A</option>
+                  <option value="price">Cheapest - Expensive</option>
+                  <option value="-price">Expensive - Cheapest</option>
                   <option value="best-sell">Best Selling</option>
-                  <option value="asc">A-Z</option>
-                  <option value="desc">Z-A</option>
-                  <option value="priceAsc">Cheapest - Expensive</option>
-                  <option value="priceDesc">Expensive - Cheapest</option>
-                  <option value="newest">New - Old</option>
-                  <option value="oldest">Old - New</option>
                 </select>
               </div>
 

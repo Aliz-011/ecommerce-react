@@ -1,49 +1,31 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { HiStar } from 'react-icons/hi';
 import { useParams } from 'react-router-dom';
 import { Header, Footer } from '../components';
+import { CartContext } from '../context/CartStore';
 import { actionType, useStateValue } from '../context/Store';
 
 export default function ProductDetails() {
   const { slug } = useParams();
   const [{ user }, dispatch] = useStateValue();
+  const { addItem, cartItems } = useContext(CartContext);
 
   const [qty, setQty] = useState(1);
   const [product, setProduct] = useState(null);
 
   const addToCart = () => {
-    // const response = await axios.post(
-    //   `http://localhost:1000/api/v1/cart`,
-    //   {
-    //     cart: [
-    //       {
-    //         _id: id,
-    //         quantity: qty,
-    //         color: product.color[0],
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       Authorization: `Bearer ${user.token}`,
-    //     },
-    //   }
-    // );
-    let products = [];
-
-    if (!localStorage.getItem('cart')) {
-      localStorage.setItem('cart', JSON.stringify(products));
-    }
-    products = JSON.parse(localStorage.getItem('cart'));
-    products.push(product);
-    localStorage.setItem('cart', JSON.stringify(products));
-    dispatch({
-      type: actionType.SET_CART,
-      cart: JSON.parse(localStorage.getItem('cart')),
-    });
+    const item = {
+      id: product._id,
+      slug: product.slug,
+      title: product.title,
+      brand: product.brand,
+      price: product.price,
+      quantity: qty,
+      color: product.color[0],
+    };
+    addItem(item);
   };
 
   useEffect(() => {
@@ -54,7 +36,6 @@ export default function ProductDetails() {
       setProduct(response.data);
       return response.data;
     };
-
     fetchProduct();
   }, []);
 

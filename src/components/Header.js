@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import {
   MdOutlineKeyboardArrowDown,
   MdSearch,
@@ -10,11 +10,16 @@ import { BrowserRouter as Router, Link } from 'react-router-dom';
 import { actionType, useStateValue } from '../context/Store';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import Cart from './Cart';
+import { CartContext } from '../context/CartStore';
 
 const Header = () => {
-  const [{ user, products, cart }, dispatch] = useStateValue();
+  const [{ user, products }, dispatch] = useStateValue();
+  const { cartItems } = useContext(CartContext);
+
   const [searchInput, setSearchInput] = useState('');
   const [msg, setMsg] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const links = [
     { href: '/menswear', label: 'menswear' },
@@ -57,7 +62,7 @@ const Header = () => {
     };
 
     fetchCart();
-  }, [user, cart]);
+  }, [user]);
 
   return (
     <header>
@@ -135,8 +140,11 @@ const Header = () => {
               )}
 
               <div className="flex items-center cursor-pointer">
-                <MdOutlineShoppingCart className="fill-yellow-600" />
-                <p className="text-sm">0</p>
+                <MdOutlineShoppingCart
+                  onClick={() => setIsOpen(true)}
+                  className="fill-yellow-600"
+                />
+                <p className="text-sm">{cartItems.length}</p>
               </div>
             </div>
           </nav>
@@ -180,6 +188,8 @@ const Header = () => {
           </div>
         </div>
       </div>
+
+      {isOpen && <Cart setIsOpen={setIsOpen} />}
     </header>
   );
 };
