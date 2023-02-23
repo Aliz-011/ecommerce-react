@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useContext, useState } from 'react';
 import { HiChevronLeft } from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { CartContext } from '../context/CartStore';
 import { useStateValue } from '../context/Store';
@@ -8,7 +9,8 @@ import { useStateValue } from '../context/Store';
 export default function Cart({ setIsOpen }) {
   const { removeItem, cartItems } = useContext(CartContext);
   const [{ user }, dispatch] = useStateValue();
-  const [qty, setQty] = useState(1);
+
+  const navigate = useNavigate();
 
   const handleRemoveItem = (index) => {
     removeItem(index);
@@ -20,7 +22,7 @@ export default function Cart({ setIsOpen }) {
         cart: cartItems.map((item) => {
           return {
             _id: item.id,
-            quantity: item.quantity ? item.quantity : qty,
+            quantity: item.quantity,
             color: item.color,
           };
         }),
@@ -34,12 +36,14 @@ export default function Cart({ setIsOpen }) {
     );
 
     if (response) {
+      localStorage.removeItem('cartItems');
       toast.success('Almost there! Confirm your purchase.');
+      navigate('/place-order');
     }
   };
 
   const totalItemsPrice = cartItems
-    .map((item) => item.price)
+    .map((item) => item.price * item.quantity)
     .reduce((a, c) => a + c, 0);
 
   const tax = (totalItemsPrice * 10) / 100;
@@ -100,7 +104,7 @@ export default function Cart({ setIsOpen }) {
                         type="number"
                         id="qty"
                         value={item.quantity}
-                        onChange={(e) => setQty(e.target.value)}
+                        readOnly
                         className="py-2 px-1 border w-24 border-gray-200 focus:outline-none dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white"
                       />
                     </div>

@@ -26,6 +26,7 @@ export default function ProductDetails() {
       color: product.color[0],
     };
     addItem(item);
+    console.log(qty);
   };
 
   useEffect(() => {

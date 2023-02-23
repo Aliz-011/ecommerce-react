@@ -3,6 +3,7 @@ import { ToastContainer } from 'react-toastify';
 import Favorite from './pages/Favorite';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import PlaceOrder from './pages/PlaceOrder';
 import ProductDetails from './pages/ProductDetails';
 import Store from './pages/Store';
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/:slug" element={<ProductDetails />} />
         <Route path="/login" element={<Login />} />
         <Route path="/favorite" element={<Favorite />} />
+        <Route path="/place-order" element={<PlaceOrder />} />
       </Routes>
     </BrowserRouter>
   );
